@@ -20,7 +20,7 @@ interface StoreState {
   removeCartItem: (id: string) => void;
   clearCart: () => void;
 
-  createBill: (items: CartItem[]) => void;
+  createBill: (items: CartItem[], customerName?: string) => void;
   updateBill: (bill: Bill) => void;
   deleteBill: (id: string) => void;
 
@@ -49,7 +49,6 @@ export const useStore = create<StoreState>()(
       deleteMenuItem: (id) =>
         set((s) => ({
           menuItems: s.menuItems.filter((i) => i.id !== id),
-          // sized cart lines are stored as "<itemId>::<sizeLabel>", so clear those too
           cart: s.cart.filter((i) => i.id !== id && !i.id.startsWith(`${id}::`)),
         })),
 
@@ -78,7 +77,7 @@ export const useStore = create<StoreState>()(
 
       clearCart: () => set({ cart: [] }),
 
-      createBill: (items) =>
+      createBill: (items, customerName = "") =>
         set((s) => {
           const nextNumber = s.bills.length ? Math.max(...s.bills.map((b) => b.orderNumber)) + 1 : 1;
           const totalQty = items.reduce((sum, i) => sum + i.qty, 0);
@@ -91,6 +90,7 @@ export const useStore = create<StoreState>()(
             totalQty,
             grandTotal,
             taxRate: get().settings.taxRate ?? 0,
+            customerName: customerName.trim(),
           };
           return { bills: [bill, ...s.bills], cart: [] };
         }),
@@ -110,6 +110,19 @@ export const useStore = create<StoreState>()(
       resetAll: () =>
         set({ menuItems: SEED_MENU, cart: [], bills: [], settings: DEFAULT_SETTINGS }),
     }),
-    { name: "restaurant-admin-storage" }
+    {
+      name: "restaurant-admin-storage",
+      version: 5,
+      migrate: (persistedState: unknown, version: number) => {
+        const state = persistedState as StoreState;
+        if (version < 5) {
+          // More seed photos changed (sandwich, shawarma, nuggets, dip
+          // sauce, chicken sando) — refresh menuItems once more, keeping
+          // cart, bills, and settings untouched.
+          return { ...state, menuItems: SEED_MENU };
+        }
+        return state;
+      },
+    }
   )
 );

@@ -9,6 +9,7 @@ export default function BillTicket({
   totalQty,
   grandTotal,
   currency,
+  customerName,
   pending,
 }: {
   restaurantName: string;
@@ -18,6 +19,7 @@ export default function BillTicket({
   totalQty: number;
   grandTotal: number;
   currency: string;
+  customerName?: string;
   pending?: boolean;
 }) {
   return (
@@ -26,6 +28,9 @@ export default function BillTicket({
         <div className="font-display text-[18px] font-semibold">{restaurantName}</div>
         <div className="text-[13px] text-ink-soft">{pending || !orderNumber ? "Not yet saved" : fmtOrderNumber(orderNumber)}</div>
         <div className="text-[13px] text-ink-soft">{pending || !date ? "\u2014" : new Date(date).toLocaleString()}</div>
+        {customerName && (
+          <div className="mt-1 text-[13px] font-medium text-ink">Customer: {customerName}</div>
+        )}
       </div>
       <div className="my-3 border-t border-dashed border-line-strong" />
       <div className="flex flex-col gap-2.5">

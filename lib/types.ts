@@ -45,6 +45,7 @@ export interface Bill {
   totalQty: number;
   grandTotal: number;
   taxRate: number;
+  customerName: string;
 }
 
 export interface Settings {

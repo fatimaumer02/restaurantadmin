@@ -22,6 +22,9 @@ export default function BillCard({
         <span className="mono text-[14.5px] font-semibold text-copper-deep">{orderNumber(bill.orderNumber)}</span>
         <span className="text-[13px] text-ink-soft">{new Date(bill.date).toLocaleString()}</span>
       </div>
+      {bill.customerName && (
+        <div className="-mt-1.5 text-[12.5px] font-medium text-ink">Customer: {bill.customerName}</div>
+      )}
       <ul className="flex flex-col gap-1 text-[12.5px] text-ink-soft">
         {bill.items.slice(0, 4).map((i) => (
           <li key={i.id}>

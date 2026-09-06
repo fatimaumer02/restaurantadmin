@@ -36,6 +36,7 @@ export default function MenuCard({
   const [selectedSize, setSelectedSize] = useState<SizeOption | undefined>(
     hasSizes ? sizes[0] : undefined
   );
+  const [imageFailed, setImageFailed] = useState(false);
 
   const displayPrice = hasSizes ? selectedSize?.price ?? sizes[0].price : item.price;
 
@@ -45,15 +46,13 @@ export default function MenuCard({
         className="relative flex h-[104px] items-center justify-center"
         style={{ backgroundColor: `${meta.color}22`, color: meta.color }}
       >
-        {item.image ? (
+        {item.image && !imageFailed ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={item.image}
             alt={item.name}
             className="h-full w-full object-cover"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = "none";
-            }}
+            onError={() => setImageFailed(true)}
           />
         ) : (
           <Icon size={26} />

@@ -56,7 +56,8 @@ function BillsContent() {
       .filter(
         (b) =>
           orderNumber(b.orderNumber).toLowerCase().includes(search.toLowerCase()) ||
-          String(b.orderNumber).includes(search)
+          String(b.orderNumber).includes(search) ||
+          (b.customerName ?? "").toLowerCase().includes(search.toLowerCase())
       )
       .filter((b) => !dateFilter || new Date(b.date).toISOString().slice(0, 10) === dateFilter)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -173,6 +174,7 @@ function BillsContent() {
             items={viewing.items}
             currency={currency}
             taxRate={viewing.taxRate ?? 0}
+            customerName={viewing.customerName}
           />
         )}
       </Modal>

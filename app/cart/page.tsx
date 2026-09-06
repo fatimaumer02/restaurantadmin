@@ -29,6 +29,7 @@ function CartContent() {
 
   const [confirmClear, setConfirmClear] = useState<ConfirmState | null>(null);
   const [preview, setPreview] = useState(false);
+  const [customerName, setCustomerName] = useState("");
 
   const totalQty = cart.reduce((s, i) => s + i.qty, 0);
   const grandTotal = cart.reduce((s, i) => s + i.qty * i.price, 0);
@@ -111,8 +112,9 @@ function CartContent() {
             <Button
               variant="primary"
               onClick={() => {
-                createBill(cart);
+                createBill(cart, customerName);
                 setPreview(false);
+                setCustomerName("");
                 push("Bill saved");
               }}
             >
@@ -121,12 +123,22 @@ function CartContent() {
           </>
         }
       >
+        <div className="mb-4 flex flex-col gap-1.5">
+          <label className="text-[12.5px] font-medium text-ink-soft">Customer name (optional)</label>
+          <input
+            className="input"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            placeholder="e.g. Ali"
+          />
+        </div>
         <BillTicket
           restaurantName={restaurantName}
           items={cart}
           totalQty={totalQty}
           grandTotal={grandTotal}
           currency={currency}
+          customerName={customerName}
           pending
         />
       </Modal>

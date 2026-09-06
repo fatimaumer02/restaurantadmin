@@ -12,6 +12,7 @@ export default function PrintableReceipt({
   items,
   currency,
   taxRate,
+  customerName,
 }: {
   restaurantName: string;
   orderNumber: number;
@@ -19,6 +20,7 @@ export default function PrintableReceipt({
   items: CartItem[];
   currency: string;
   taxRate: number;
+  customerName?: string;
 }) {
   const subtotal = items.reduce((s, i) => s + i.qty * i.price, 0);
   const tax = (subtotal * (taxRate || 0)) / 100;
@@ -32,9 +34,10 @@ export default function PrintableReceipt({
         className="w-full max-w-[320px] rounded-sm border border-line bg-white px-6 py-7 font-mono text-[13px] leading-relaxed text-ink"
       >
         <div className="mb-3 text-center">
-          <div className="text-[16px] font-bold uppercase tracking-wide">{restaurantName}</div>
-          <div className="mt-2 text-[12px] text-ink-soft">{fmtOrderNumber(orderNumber)}</div>
-          <div className="text-[12px] text-ink-soft">
+          <div className="text-[16px] font-bold uppercase tracking-wide">{restaurantName}</div>  
+          {customerName && <div className="mt-1 text-[12.5px] font-semibold">Customer Name: {customerName}</div>}
+          <div className="mt-2 text-[12px] text-ink-soft">Order-number: {fmtOrderNumber(orderNumber)}</div>
+            <div className="text-[12px] text-ink-soft">
             {dt.toLocaleDateString()} {"\u00b7"}{" "}
             {dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
           </div>
