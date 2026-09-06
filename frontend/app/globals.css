@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #f8f4ec;
+  color: #211c16;
+}
+
+::selection {
+  background: #fbebdd;
+  color: #8f430f;
+}
+
+@layer components {
+  .input {
+    @apply w-full rounded-sm border border-line-strong bg-surface px-3.5 py-2.5 text-sm text-ink transition;
+  }
+  .input:focus {
+    @apply outline-none border-copper ring-4 ring-copper-tint;
+  }
+  .quick-action {
+    @apply flex flex-col items-center gap-2.5 rounded-sm border border-line bg-surface-alt px-3 py-5 text-[13px] font-medium text-ink transition hover:-translate-y-px hover:border-copper hover:bg-copper-tint;
+  }
+  .btn-landing {
+    @apply inline-flex items-center gap-2 rounded-full bg-copper px-7 py-3.5 text-[14.5px] font-semibold text-[#2A1204] transition hover:-translate-y-0.5 hover:bg-[#D66B28] hover:shadow-pop;
+  }
+}
+
+@keyframes mark-in {
+  0% { opacity: 0; transform: scale(0.6) rotate(-10deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes title-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes subtitle-in {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes button-in {
+  0% { opacity: 0; transform: translateY(12px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes flicker {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  25% { transform: scale(1.06, 0.96) rotate(-3deg); opacity: 0.92; }
+  50% { transform: scale(0.96, 1.05) rotate(2deg); opacity: 1; }
+  75% { transform: scale(1.03, 0.97) rotate(-1deg); opacity: 0.95; }
+}
+
+.animate-mark-in { animation: mark-in 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.animate-title-in { animation: title-in 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s both; }
+.animate-subtitle-in { animation: subtitle-in 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s both; }
+.animate-button-in { animation: button-in 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s both; }
+.animate-flicker { animation: flicker 2.4s ease-in-out infinite 1.2s; }
+
+.mono {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+.skeleton {
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ece5d6 25%, #f5f0e4 37%, #ece5d6 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
