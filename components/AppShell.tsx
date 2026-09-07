@@ -11,6 +11,7 @@ const PAGE_META: Record<string, { title: string; subtitle: string }> = {
   "/menu": { title: "Menu management", subtitle: "Add, edit and organize what you serve" },
   "/cart": { title: "Cart", subtitle: "Build the current order before billing it" },
   "/bills": { title: "Bills", subtitle: "Every saved order, searchable by number or date" },
+  "/sales": { title: "Sales", subtitle: "Revenue at a glance — today, this month, this year" },
   "/settings": { title: "Settings", subtitle: "Restaurant details and stored data" },
 };
 

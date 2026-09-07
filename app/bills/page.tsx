@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CalendarDays, Pencil, Receipt, ReceiptText, Search, TrendingUp } from "lucide-react";
+import { Pencil, Receipt, Search } from "lucide-react";
 import { useStore } from "@/lib/store";
-import { EmptyState, StatCard } from "@/components/ui/atoms";
+import { EmptyState } from "@/components/ui/atoms";
 import { Modal, ConfirmDialog, type ConfirmState } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import BillCard from "@/components/bills/BillCard";
@@ -11,17 +11,12 @@ import EditBillForm from "@/components/bills/EditBillForm";
 import PrintableReceipt from "@/components/bills/print/PrintTableRecipt";
 import { useToast } from "@/components/ui/Toast";
 import ClientOnly from "@/components/ClientOnly";
-import { money, orderNumber, todayKey } from "@/lib/utils";
+import { orderNumber } from "@/lib/utils";
 import type { Bill } from "@/lib/types";
 
 function BillsSkeleton() {
   return (
     <div className="flex flex-col gap-7">
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="skeleton h-[92px]" />
-        ))}
-      </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }).map((_, i) => (
           <div key={i} className="skeleton h-[200px]" />
@@ -44,12 +39,6 @@ function BillsContent() {
   const [viewing, setViewing] = useState<Bill | null>(null);
   const [editing, setEditing] = useState<Bill | null>(null);
   const [confirm, setConfirm] = useState<ConfirmState | null>(null);
-
-  const totalSales = bills.reduce((s, b) => s + b.grandTotal, 0);
-  const todaySales = bills
-    .filter((b) => todayKey(b.date) === todayKey(new Date()))
-    .reduce((s, b) => s + b.grandTotal, 0);
-  const avgBill = bills.length ? totalSales / bills.length : 0;
 
   const filtered = useMemo(() => {
     return bills
@@ -76,13 +65,6 @@ function BillsContent() {
 
   return (
     <div className="flex flex-col gap-7">
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        <StatCard icon={Receipt} label="Total bills" value={bills.length} tint="#C97B2E" />
-        <StatCard icon={TrendingUp} label="Total sales" value={money(totalSales, currency)} tint="#3F6B4F" />
-        <StatCard icon={CalendarDays} label="Today's sales" value={money(todaySales, currency)} tint="#B8433A" />
-        <StatCard icon={ReceiptText} label="Average bill" value={money(avgBill, currency)} tint="#8B5E34" />
-      </div>
-
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex min-w-[230px] items-center gap-2.5 rounded-sm border border-line-strong bg-surface px-3.5 py-2.5 text-ink-faint focus-within:border-copper focus-within:ring-4 focus-within:ring-copper-tint">
           <Search size={16} />

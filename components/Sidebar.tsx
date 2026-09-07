@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard, UtensilsCrossed, ShoppingCart, Receipt, Settings as SettingsIcon, Store,
+  LayoutDashboard, UtensilsCrossed, ShoppingCart, Receipt, BarChart3, Settings as SettingsIcon, Store,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/lib/store";
@@ -14,6 +14,7 @@ const NAV = [
   { href: "/menu", label: "Menu", icon: UtensilsCrossed },
   { href: "/cart", label: "Cart", icon: ShoppingCart },
   { href: "/bills", label: "Bills", icon: Receipt },
+  { href: "/sales", label: "Sales", icon: BarChart3 },
   { href: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 

@@ -112,17 +112,22 @@ export const useStore = create<StoreState>()(
     }),
     {
       name: "restaurant-admin-storage",
-      version: 5,
+      version: 6,
       migrate: (persistedState: unknown, version: number) => {
         const state = persistedState as StoreState;
-        if (version < 5) {
-          // More seed photos changed (sandwich, shawarma, nuggets, dip
-          // sauce, chicken sando) — refresh menuItems once more, keeping
-          // cart, bills, and settings untouched.
-          return { ...state, menuItems: SEED_MENU };
+
+        if (version < 6) {
+          const existingIds = new Set(state.menuItems?.map((i) => i.id) ?? []);
+          const newSeedItems = SEED_MENU.filter((seedItem) => !existingIds.has(seedItem.id));
+
+          return {
+            ...state,
+            menuItems: [...(state.menuItems ?? []), ...newSeedItems],
+          };
         }
+
         return state;
       },
-    }
-  )
+    },
+  ),
 );
